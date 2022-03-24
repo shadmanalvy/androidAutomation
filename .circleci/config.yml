@@ -132,4 +132,4 @@ jobs:
 workflows:
   build:
     jobs:
-      - gradle/test
+      - test
