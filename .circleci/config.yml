@@ -8,8 +8,8 @@ jobs:
     # To optimize build times, we recommend "large" and above for Android-related jobs
     resource_class: large
     steps:
-      - checkout
-      - run:
+    - checkout
+    - run:
           name: Install appium server
           command: |
             curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
@@ -20,57 +20,57 @@ jobs:
             sudo npm install -g appium
             sudo npm install -g wd
             sudo npm install appium-doctor -g
-      - run:
+    - run:
           name: Start appium
           command: appium --session-over --allow-insecure chromedriver_autodownload
           background: true
-      - run:
+    - run:
           name: Wait Until Appium Boot
           command: sleep 30
-      - run:
+    - run:
           name: Create avd
           command: |
             SYSTEM_IMAGES="system-images;android-29;default;x86"
             sdkmanager "$SYSTEM_IMAGES"
             echo "no" | avdmanager --verbose create avd -n test -k "$SYSTEM_IMAGES"
-      - run:
+    - run:
           name: Launch emulator
           command: |
             emulator -avd test -delay-adb -verbose -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
           background: true
-      - run:
+    - run:
           name: Wait for emulator to start
           command: |
             circle-android wait-for-boot
-      - run:
+    - run:
           name: Disable emulator animations
           command: |
             adb shell settings put global window_animation_scale 0.0
             adb shell settings put global transition_animation_scale 0.0
             adb shell settings put global animator_duration_scale 0.0
-      - run:
+    - run:
           name: adb
           command: |
             adb devices
             chmod 777 ./script/adb_connect.sh
             ./script/adb_connect.sh
-      - run:
+    - run:
           name: Run tests
-      - run:
+    - run:
           name: sleep for 1 mins
           command: |
             sleep 1m
-      - run:
+    - run:
           name: create directory
           command: |
             mkdir output
-      - run:
+    - run:
           name: take screenshot
           command: |
             adb exec-out screencap -p > /home/circleci/project/output/screen.png
-      - store_artifacts:
+    - store_artifacts:
           path: /home/circleci/project/output
-      - run:
+    - run:
           name: force stop app
           command: |
             adb shell am force-stop com.amity.integration.test
