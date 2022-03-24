@@ -1,5 +1,6 @@
 orbs:
   browser-tools: circleci/browser-tools@1.2.2
+  gradle: circleci/gradle@2.2.0
 version: 2.1
 jobs:
   test:
@@ -102,9 +103,9 @@ jobs:
       #       sleep 9m
       - run:
           name: Run tests
-          command: |
-            ls
-            mvn clean test -Dtest="/app/src/test/java/com/example/androidautomationtest/base/listViewTest" -Dmaven.test.failure.ignore=true -Dsurefire.test.failure.ignore=true
+          #command: |
+           # ls
+           # mvn clean test -Dtest="/app/src/test/java/com/example/androidautomationtest/base/listViewTest" -Dmaven.test.failure.ignore=true -Dsurefire.test.failure.ignore=true
       - run:
           name: sleep for 1 mins
           command: |
@@ -131,4 +132,4 @@ jobs:
 workflows:
   build:
     jobs:
-      - test
+      - gradle/test
