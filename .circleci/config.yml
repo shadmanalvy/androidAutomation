@@ -101,14 +101,10 @@ jobs:
       #     command: |
       #       sleep 9m
       - run:
-          name: Start appium
-          command: appium --session-over --allow-insecure chromedriver_autodownload
-          background: true
-      - run:
           name: Run tests
           command: |
             ls
-            mvn clean test -Dtest=CommunityTest -Dmaven.test.failure.ignore=true -Dsurefire.test.failure.ignore=true
+            mvn clean test -Dtest=listViewTest -Dmaven.test.failure.ignore=true -Dsurefire.test.failure.ignore=true
       - run:
           name: sleep for 1 mins
           command: |
