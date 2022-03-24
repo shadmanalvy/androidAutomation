@@ -1,26 +1,64 @@
-version: '2.1'
-orbs:
-  android: circleci/android@2.0
+version: 2
+
 jobs:
-  test:
-    executor:
-      name: android/android-machine
-      resource-class: large
-      tag: 2021.10.1
+  build:
+    docker:
+      # specific environment version to avoid incompatible updates
+      - image: android:202102-01
+
+    working_directory: ~/workspace
+
     steps:
+
+      - run:
+          name: Lists installed targets
+          command: android list target
+          environment:
+            TERM: dumb
+
+      - run:
+          name: install avd
+          command: sdkmanager "system-images;android-24;default;armeabi-v7a"
+          environment:
+            TERM: dumb
+
+
+      - run:
+          name: Create avd
+          #   command: echo no | avdmanager create avd -n testEmulator -k "system-images;android-23;google_apis;armeabi-v7a"
+          command: echo no | avdmanager create avd -n testEmulator -k "system-images;android-24;default;armeabi-v7a"
+          environment:
+            TERM: dumb
+
+      - run:
+          name: Start emulator
+          command: emulator -avd testEmulator -no-audio -no-window
+          background: true
+          environment:
+            TERM: dumb
+
       - checkout
-      - android/create-avd:
-          avd-name: myavd
-          install: true
-          system-image: system-images;android-29;default;x86
-      - android/start-emulator:
-          avd-name: myavd
-          no-window: true
-          restore-gradle-cache-prefix: v1a
-      - android/run-tests
-      - android/save-gradle-cache:
-          cache-prefix: v1a
-workflows:
-  test:
-    jobs:
-      - test
+
+      - run:
+          name: Wait for emulator
+          command: ./android-wait-for-boot.sh
+          environment:
+            TERM: dumb
+
+      - run:
+          name: Remove lock screen
+          command: adb shell input keyevent 82
+          environment:
+            TERM: dumb
+
+      - run:
+          name: Unit testing
+          command: ./gradlew test
+          environment:
+            TERM: dumb
+
+      - run:
+          name: Instrumentation testing
+          command: ./gradlew connectedCheck
+          environment:
+            TERM: dumb
