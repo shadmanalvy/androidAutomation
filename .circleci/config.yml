@@ -104,7 +104,7 @@ jobs:
           name: Run tests
           command: |
             ls
-            mvn clean test -Dtest="app/src/test/java/com/example/androidautomationtest/base/listViewTest" -Dmaven.test.failure.ignore=true -Dsurefire.test.failure.ignore=true
+            mvn clean test -Dtest="/app/src/test/java/com/example/androidautomationtest/base/listViewTest" -Dmaven.test.failure.ignore=true -Dsurefire.test.failure.ignore=true
       - run:
           name: sleep for 1 mins
           command: |
