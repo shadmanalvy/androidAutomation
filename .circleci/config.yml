@@ -8,7 +8,7 @@ jobs:
     # To optimize build times, we recommend "large" and above for Android-related jobs
     resource_class: large
     steps:
-      - checkout
+      -checkout
       # - run:
       #     name: test start
       #     command: |
@@ -16,7 +16,7 @@ jobs:
       #       ./script/send_NotifyBot.sh $CIRCLE_PROJECT_REPONAME-$CIRCLE_BRANCH-$CIRCLE_BUILD_NUM start
      # - browser-tools/install-chrome
       #- browser-tools/install-chromedriver
-      - run:
+      #- run:
        #   name: install mvn
         #  command: |
          #   sudo apt update -y
@@ -34,13 +34,13 @@ jobs:
             sudo npm install -g wd
             sudo npm install appium-doctor -g
 
-      - run:
-          name: Check install
-          command: |
+      #- run:
+         # name: Check install
+         # command: |
          #   google-chrome --version
          #   chromedriver --version
          #   mvn -version
-            java -version
+          #  java -version
       #- run:
          # name: download apk
          # command: |
