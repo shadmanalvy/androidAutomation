@@ -74,7 +74,7 @@ jobs:
           name: force stop app
           command: |
             adb shell am force-stop com.amity.integration.test
-      workflows:
+workflows:
   build:
     jobs:
       - test
