@@ -78,8 +78,8 @@ jobs:
           name: adb
           command: |
             adb devices
-            chmod 777 ./script/adb_connect.sh
-            ./script/adb_connect.sh
+       #     chmod 777 ./script/adb_connect.sh
+       #     ./script/adb_connect.sh
       # - run:
       #     name: sleep for 1 mins
       #     command: |
