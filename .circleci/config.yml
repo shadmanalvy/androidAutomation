@@ -125,10 +125,10 @@ jobs:
             adb exec-out screencap -p > /home/circleci/project/output/screen.png
       - store_artifacts:
           path: /home/circleci/project/output
-      - run:
-          name: force stop app
-          command: |
-            adb shell am force-stop com.amity.integration.test
+     # - run:
+     #     name: force stop app
+     #     command: |
+     #       adb shell am force-stop com.amity.integration.test
       # - run:
       #     name: test finish
       #     command: |

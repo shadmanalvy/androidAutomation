@@ -51,7 +51,7 @@ public class listViewTest extends baseClass {
 
         //Thread.sleep(2000);
         addContactScreen addC = new addContactScreen(driver);
-        addC.WriteName();
+            addC.WriteName();
         addC.WriteNumber();
         addC.SaveContact();
         System.out.println("Saved Contact");
