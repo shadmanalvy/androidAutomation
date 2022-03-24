@@ -1,5 +1,5 @@
 orbs:
-#browser-tools: circleci/browser-tools@1.2.2
+  browser-tools: circleci/browser-tools@1.2.2
 version: 2.1
 jobs:
   test:
@@ -9,6 +9,19 @@ jobs:
     resource_class: large
     steps:
       - checkout
+      # - run:
+      #     name: test start
+      #     command: |
+      #       chmod 777 ./script/send_NotifyBot.sh
+      #       ./script/send_NotifyBot.sh $CIRCLE_PROJECT_REPONAME-$CIRCLE_BRANCH-$CIRCLE_BUILD_NUM start
+      - browser-tools/install-chrome
+      - browser-tools/install-chromedriver
+      - run:
+          name: install mvn
+          command: |
+            sudo apt update -y
+            sudo apt install maven -y
+            sudo apt install aapt -y
       - run:
           name: Install appium server
           command: |
@@ -20,6 +33,29 @@ jobs:
             sudo npm install -g appium
             sudo npm install -g wd
             sudo npm install appium-doctor -g
+
+      - run:
+          name: Check install
+          command: |
+            google-chrome --version
+            chromedriver --version
+            mvn -version
+            java -version
+      - run:
+          name: download apk
+          command: |
+            ls
+            chmod 777 ./script/download_apk.sh
+            ./script/download_apk.sh
+            ls
+            chmod 777 ./script/env_android.sh
+            ./script/env_android.sh
+            mv config.properties src/main/resources/android
+            mv asc-debug.apk src/main/resources/android
+      - run:
+          name: Check file
+          command: |
+            cat src/main/resources/android/config.properties
       - run:
           name: Start appium
           command: appium --session-over --allow-insecure chromedriver_autodownload
@@ -42,6 +78,11 @@ jobs:
           name: Wait for emulator to start
           command: |
             circle-android wait-for-boot
+      # - run:
+      #     # run in parallel with the emulator starting up, to optimize build time
+      #     name: Run installDebug task
+      #     command: |
+      #       ./gradlew installDebug
       - run:
           name: Disable emulator animations
           command: |
@@ -54,8 +95,35 @@ jobs:
             adb devices
             chmod 777 ./script/adb_connect.sh
             ./script/adb_connect.sh
+      # - run:
+      #     name: sleep for 1 mins
+      #     command: |
+      #       sleep 9m
+      # - run:
+      #     name: sleep for 1 mins
+      #     command: |
+      #       sleep 9m
+      # - run:
+      #     name: sleep for 1 mins
+      #     command: |
+      #       sleep 9m
+      # - run:
+      #     name: sleep for 1 mins
+      #     command: |
+      #       sleep 9m
+      # - run:
+      #     name: sleep for 1 mins
+      #     command: |
+      #       sleep 9m
+      - run:
+          name: Start appium
+          command: appium --session-over --allow-insecure chromedriver_autodownload
+          background: true
       - run:
           name: Run tests
+          command: |
+            ls
+            mvn clean test -Dtest=CommunityTest -Dmaven.test.failure.ignore=true -Dsurefire.test.failure.ignore=true
       - run:
           name: sleep for 1 mins
           command: |
@@ -68,12 +136,17 @@ jobs:
           name: take screenshot
           command: |
             adb exec-out screencap -p > /home/circleci/project/output/screen.png
-    #  - store_artifacts:
-    #      path: /home/circleci/project/output
+      - store_artifacts:
+          path: /home/circleci/project/output
       - run:
           name: force stop app
           command: |
             adb shell am force-stop com.amity.integration.test
+      # - run:
+      #     name: test finish
+      #     command: |
+      #       ./script/send_NotifyBot.sh $CIRCLE_PROJECT_REPONAME-$CIRCLE_BRANCH-$CIRCLE_BUILD_NUM finish $CIRCLE_BUILD_URL
+      #     when: always # Uploads code coverage results, pass or fail
 workflows:
   build:
     jobs:
