@@ -42,21 +42,6 @@ jobs:
             mvn -version
             java -version
       - run:
-          name: download apk
-          command: |
-            ls
-            chmod 777 ./script/download_apk.sh
-            ./script/download_apk.sh
-            ls
-            chmod 777 ./script/env_android.sh
-            ./script/env_android.sh
-            mv config.properties src/main/resources/android
-            mv asc-debug.apk src/main/resources/android
-      - run:
-          name: Check file
-          command: |
-            cat src/main/resources/android/config.properties
-      - run:
           name: Start appium
           command: appium --session-over --allow-insecure chromedriver_autodownload
           background: true
