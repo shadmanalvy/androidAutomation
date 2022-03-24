@@ -1,6 +1,7 @@
 orbs:
   browser-tools: circleci/browser-tools@1.2.2
   gradle: circleci/gradle@2.2.0
+  android: circleci/android@2.0
 version: 2.1
 jobs:
   test:
