@@ -17,12 +17,12 @@ jobs:
       #       ./script/send_NotifyBot.sh $CIRCLE_PROJECT_REPONAME-$CIRCLE_BRANCH-$CIRCLE_BUILD_NUM start
       - browser-tools/install-chrome
       - browser-tools/install-chromedriver
-      - run:
-          name: install mvn
-          command: |
-            sudo apt update -y
-            sudo apt install maven -y
-            sudo apt install aapt -y
+    #  - run:
+    #      name: install mvn
+    #      command: |
+    #        sudo apt update -y
+    #        sudo apt install maven -y
+    #        sudo apt install aapt -y
       - run:
           name: Install appium server
           command: |
@@ -101,11 +101,11 @@ jobs:
       #     name: sleep for 1 mins
       #     command: |
       #       sleep 9m
-      - run:
-          name: Run tests
-          #command: |
-           # ls
-           # mvn clean test -Dtest="/app/src/test/java/com/example/androidautomationtest/base/listViewTest" -Dmaven.test.failure.ignore=true -Dsurefire.test.failure.ignore=true
+      #- run:
+      #    name: Run tests
+      #    command: |
+      #      ls
+      #      mvn clean test -Dtest="/app/src/test/java/com/example/androidautomationtest/base/listViewTest" -Dmaven.test.failure.ignore=true -Dsurefire.test.failure.ignore=true
       - run:
           name: sleep for 1 mins
           command: |
