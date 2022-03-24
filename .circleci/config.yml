@@ -9,7 +9,6 @@ jobs:
     resource_class: large
     steps:
       - checkout
-
       - run:
           name: Install appium server
           command: |
@@ -21,7 +20,6 @@ jobs:
             sudo npm install -g appium
             sudo npm install -g wd
             sudo npm install appium-doctor -g
-
       - run:
           name: Start appium
           command: appium --session-over --allow-insecure chromedriver_autodownload
