@@ -8,7 +8,7 @@ jobs:
     # To optimize build times, we recommend "large" and above for Android-related jobs
     resource_class: large
     steps:
-      -checkout
+      - checkout
       # - run:
       #     name: test start
       #     command: |
